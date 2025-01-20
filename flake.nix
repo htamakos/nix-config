@@ -31,6 +31,11 @@
           name = "htamakos";
           privateEmail = "tmkshrnr@gmail.com";
         };
+
+        testuser = {
+          name = "testuser";
+          privateEmail = "tmkshrnr@gmail.com";
+        };
       };
 
       mkDarwinConfiguration = hostname: username:
@@ -44,10 +49,27 @@
             ./nix/nix-darwin/configuration.nix
           ];
         };
+
+      mkHomeConfiguration = system: username: hostname:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs { inherit system; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            userConfig = users.${username};
+          };
+          modules = [
+            ./nix/home/${username}/${hostname}.nix
+          ];
+        };
     in
     {
       darwinConfigurations = {
         "HironorinoMacBook-Pro" = mkDarwinConfiguration "HironorinoMacBook-Pro" "htamakos";
+      };
+
+      homeConfigurations = {
+        "htamakos@HironorinoMacBook-Pro" = mkHomeConfiguration "aarch64-darwin" "htamakos" "HironorinoMacBook-Pro";
+        "testuser@HironorinoMacBook-Pro" = mkHomeConfiguration "aarch64-darwin" "testuser" "HironorinoMacBook-Pro";
       };
     };
 }

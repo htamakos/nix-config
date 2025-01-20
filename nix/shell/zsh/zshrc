@@ -1,0 +1,159 @@
+#------------------------#
+# ZSH 
+#------------------------#
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+### Zinit Config
+zinit ice as"command" from"gh-r" \
+      atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+      atpull"%atclone" src"init.zsh"
+zinit light starship/starship
+starship preset gruvbox-rainbow -o ~/.config/starship.toml
+
+#### コマンド補完
+zinit ice wait'0'; zinit light zsh-users/zsh-completions
+autoload -Uz compinit && compinit
+
+#### コマンド補完候補を色付けする
+autoload -U colors
+colors
+zstyle ':completion:*' list-colors "${LS_COLORS}"
+
+#### 補完で小文字でも大文字にマッチさせる
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+#### 補完候補を一覧表示したとき、Tabや矢印で選択できるようにする
+zstyle ':completion:*:default' menu select=1
+
+#### シンタックスハイライト
+zinit light zsh-users/zsh-syntax-highlighting
+
+#### 履歴補完
+zinit light zsh-users/zsh-autosuggestions
+
+# キャッシュの利用による補完の高速化
+zstyle ':completion::complete:*' use-cache true
+
+# 補完リストの表示間隔を狭くする
+setopt list_packed
+
+# コマンドの打ち間違いを指摘してくれる
+setopt correct
+SPROMPT="correct: $RED%R$DEFAULT -> $GREEN%r$DEFAULT ? [Yes/No/Abort/Edit] => "
+
+### End of Zinit Config
+
+HISTFILE=$HOME/.zsh-history
+HISTSIZE=1000000
+SAVEHIST=1000000
+
+setopt inc_append_history
+setopt hist_ignore_dups
+setopt share_history
+setopt hist_reduce_blanks
+setopt hist_save_no_dups
+setopt hist_no_store
+setopt hist_expand
+setopt inc_append_history
+setopt AUTO_CD
+setopt AUTO_PARAM_KEYS
+setopt EXTENDED_HISTORY
+
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^p" history-beginning-search-backward-end
+bindkey "^n" history-beginning-search-forward-end
+
+#------------------------#
+# peco
+#------------------------#
+## gitリポジトリ検索・移動
+function peco-src () {
+  local selected_dir=$(ghq list -p | peco)
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd ${selected_dir}"
+    zle accept-line
+  fi
+}
+zle -N peco-src
+bindkey '^G' peco-src
+
+function peco-history-selection() {
+    BUFFER=`history -n 1 | tac  | awk '!a[$0]++' | peco`
+    CURSOR=$#BUFFER
+    zle reset-prompt
+}
+
+zle -N peco-history-selection
+bindkey '^R' peco-history-selection
+
+# cdr
+if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
+    autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+    add-zsh-hook chpwd chpwd_recent_dirs
+    zstyle ':completion:*' recent-dirs-insert both
+    zstyle ':chpwd:*' recent-dirs-default true
+    zstyle ':chpwd:*' recent-dirs-max 1000
+    zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/chpwd-recent-dirs"
+fi
+function peco-cdr () {
+    local selected_dir="$(cdr -l | sed 's/^[0-9]\+ \+//' | peco --prompt="cdr >" --query "$LBUFFER")"
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd ${selected_dir}"
+        zle accept-line
+    fi
+}
+zle -N peco-cdr
+bindkey '^X' peco-cdr
+
+#------------------------#
+# others
+#------------------------#
+alias vim="nvim"
+
+#------------------------#
+# brew completion
+#------------------------#
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+  autoload -Uz compinit
+  compinit
+fi
+
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+# install lombok.jar for LSP
+lombok_dir=$HOME/.local/share/java
+lombok_filename=lombok.jar
+
+if [ ! -f $lombok_dir/$lombok_filename ]
+then
+  mkdir -p $lombok_dir
+  wget https://projectlombok.org/downloads/lombok.jar -O $lombok_dir/$lombok_filename
+fi
+
+export JDTLS_JVM_ARGS="-javaagent:$lombok_dir/$lombok_filename --add-modules=ALL-SYSTEM --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED"
+
+sdk_init="$HOME/.sdkman/bin/sdkman-init.sh"
+if [ ! -f $sdk_init ]
+then
+    curl -s "https://get.sdkman.io" | bash
+fi
+
+source $sdk_init
+
+# Ruff
+if type ruff &>/dev/null
+then
+    curl -LsSf https://astral.sh/ruff/install.sh | sh
+fi
+
+# Path
+export PATH=$PATH:$HOME/.local/bin

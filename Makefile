@@ -18,8 +18,14 @@ install-nix-darwin:
 
 darwin-rebuild:
 	@echo "Rebuilding darwin configuration..."
-	@darwin-rebuild switch --flake .#${HOSTNAME}
+	@/run/current-system/sw/bin/darwin-rebuild switch --flake .#${HOSTNAME}
 	@echo "Darwin rebuild complete."
+
+build-home-private:
+	NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nix run nixpkgs#home-manager -- switch --flake .#htamakos@HironorinoMacBook-Pro --impure
+
+build-home-test-private:
+	@nix run nixpkgs#home-manager -- switch --flake .#testuser@HironorinoMacBook-Pro
 
 uninstall:
 	@echo "UnInstalling Nix"
