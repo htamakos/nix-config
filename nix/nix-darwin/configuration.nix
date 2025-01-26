@@ -144,6 +144,7 @@
             "/Applications/Microsoft Remote Desktop.app"
             "/Applications/Microsoft Outlook.app"
             "/Applications/iTerm.app"
+            "/Applications/Kindle.app"
         ];
       };
 
@@ -203,6 +204,7 @@
     masApps = {
       #"Microsoft Remote Desktop" = 1295203466;
       #"XCode" = 497799835;
+      #"Kindle" = 302584613;
     };
   };
 
