@@ -11,6 +11,7 @@
     ../modules/rust.nix
     ../modules/nodejs.nix
     ../modules/lsp.nix
+    ../modules/vscode.nix
   ];
 
   nixpkgs = {

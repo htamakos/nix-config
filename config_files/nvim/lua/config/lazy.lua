@@ -251,7 +251,11 @@ require("lazy").setup({
             config = function()
                 local cmp = require("cmp")
                 cmp.setup({
-                    sources = cmp.config.sources({
+                    preselect = cmp.PreselectMode.None,
+                    completion = {
+                        completeopt = 'menu,menuone,noselect',
+                    },
+                    sources = {
                         {
                             name = "nvim_lsp",
                             option = {
@@ -259,11 +263,13 @@ require("lazy").setup({
                                     keyword_pattern = [[\(\k\| \|\/\|#\)\+]],
                                 },
                             },
+                            priority = 1000,
+                            group_index = 1
                         },
-                        { name = "cmdline" },
-                        { name = "buffer" },
-                        { name = "path" },
-                    }),
+                        { name = "cmdline", priority = 3, group_index = 2 },
+                        { name = "buffer",  priority = 3, group_index = 2 },
+                        { name = "path",    priority = 2, group_index = 1 },
+                    },
                     mapping = {
                         ['<C-n>'] = cmp.mapping.select_next_item(),
                         ['<C-p>'] = cmp.mapping.select_prev_item(),

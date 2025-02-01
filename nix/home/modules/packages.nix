@@ -52,7 +52,6 @@
 
     # GUI
     slack
-    vscode
 
     # Network
     dig
