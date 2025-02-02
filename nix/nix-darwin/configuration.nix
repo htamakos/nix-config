@@ -178,6 +178,7 @@
     };
     brews = [
       "exa"
+      "llama.cpp"
     ];
     casks = [
       # Keybind

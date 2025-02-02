@@ -460,6 +460,11 @@ require("lazy").setup({
                     end
                 }
             end
+        },
+        {
+            'ggml-org/llama.vim',
+            init = function()
+            end,
         }
     },
     -- Configure any other settings here. See the documentation for more details.
