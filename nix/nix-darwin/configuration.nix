@@ -136,16 +136,16 @@
         # https://daiderd.com/nix-darwin/manual/index.html#opt-system.defaults.dock.wvous-tr-corner
         wvous-tr-corner = 1;
 
-        persistent-apps = [
-            "/Applications/Google Chrome.app"
-            "/Applications/Slack.app"
-            "/Applications/Microsoft Excel.app"
-            "/Applications/Microsoft PowerPoint.app"
-            "/Applications/Microsoft Remote Desktop.app"
-            "/Applications/Microsoft Outlook.app"
-            "/Applications/iTerm.app"
-            "/Applications/Kindle.app"
-        ];
+        #persistent-apps = [
+        #    "/Applications/Google Chrome.app"
+        #    "/Applications/Slack.app"
+        #    "/Applications/Microsoft Excel.app"
+        #    "/Applications/Microsoft PowerPoint.app"
+        #    "/Applications/Microsoft Remote Desktop.app"
+        #    "/Applications/Microsoft Outlook.app"
+        #    "/Applications/iTerm.app"
+        #    "/Applications/Kindle.app"
+        #];
       };
 
       screencapture = {
