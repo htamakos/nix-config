@@ -197,7 +197,7 @@
       "iterm2"
 
       # Video Meeting
-      "zoom"
+      #"zoom"
 
       # Otethers
       "alfred"
