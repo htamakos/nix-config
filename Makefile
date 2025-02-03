@@ -28,7 +28,7 @@ build-home-test-private:
 	@nix run nixpkgs#home-manager -- switch --flake .#testuser@HironorinoMacBook-Pro
 
 build-home-work:
-	NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nix run nixpkgs#home-manager -- switch --flake .#h-tamakosshi@PC107859 --impure
+	NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nix run nixpkgs#home-manager -- switch --flake .#h-tamakoshi@PC107859 --impure
 
 uninstall:
 	@echo "UnInstalling Nix"
