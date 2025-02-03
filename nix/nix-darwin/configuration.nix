@@ -158,6 +158,10 @@
 
         target = "file";
       };
+
+      CustomUserPreferences = {
+        "com.apple.PowerChime".ChimeOnNoHardware = false;
+      };
     };
   };
 

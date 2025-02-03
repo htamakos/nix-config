@@ -36,6 +36,11 @@
           name = "testuser";
           privateEmail = "tmkshrnr@gmail.com";
         };
+
+        h-tamakoshi = {
+          name = "h-tamakoshi";
+          email = "h-tamakoshi@sakura.ad.jp";
+        };
       };
 
       mkDarwinConfiguration = hostname: username:
@@ -65,11 +70,13 @@
     {
       darwinConfigurations = {
         "HironorinoMacBook-Pro" = mkDarwinConfiguration "HironorinoMacBook-Pro" "htamakos";
+        "PC107859" = mkDarwinConfiguration "PC107859" "h-tamakoshi";
       };
 
       homeConfigurations = {
         "htamakos@HironorinoMacBook-Pro" = mkHomeConfiguration "aarch64-darwin" "htamakos" "HironorinoMacBook-Pro";
         "testuser@HironorinoMacBook-Pro" = mkHomeConfiguration "aarch64-darwin" "testuser" "HironorinoMacBook-Pro";
+        "h-tamakoshi@PC107859" = mkHomeConfiguration "aarch64-darwin" "h-tamakoshi" "PC107859";
       };
     };
 }
