@@ -75,8 +75,6 @@ vim.keymap.set('n', 'ss', ':<C-u>sp<CR>', remap_default_opts)
 vim.keymap.set('n', 'vs', ':<C-u>vs<CR>', remap_default_opts)
 vim.keymap.set('n', 'sq', ':<C-u>q<CR>', remap_default_opts)
 vim.keymap.set('n', 'sQ', ':<C-u>bd<CR>', remap_default_opts)
-vim.keymap.set('i', '<Shift><Tab>', '<C-u>d', remap_default_opts)
-
 vim.keymap.set('n', 'ff', ':lua vim.lsp.buf.format()<CR>', remap_default_opts)
 
 -- For Terminal Mode
