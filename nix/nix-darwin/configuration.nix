@@ -181,7 +181,7 @@
       autoUpdate = true;
     };
     brews = [
-      "exa"
+      #"exa"
       "llama.cpp"
     ];
     casks = [
