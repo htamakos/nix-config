@@ -156,4 +156,4 @@ then
 fi
 
 # Path
-export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:$HOME/.local/bin:/opt/homebrew/opt/mysql@8.0/bin

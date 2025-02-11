@@ -30,6 +30,7 @@
     kubernetes-helm
     kustomize
     docker
+    kind
 
     # Languages
     uv
@@ -66,5 +67,8 @@
 
     imagemagick
     kitty
+
+    # DB
+    sqlcl
   ];
 }

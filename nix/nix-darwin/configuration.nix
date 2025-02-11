@@ -183,6 +183,7 @@
     brews = [
       #"exa"
       "llama.cpp"
+      "mysql@8.0"
     ];
     casks = [
       # Keybind
